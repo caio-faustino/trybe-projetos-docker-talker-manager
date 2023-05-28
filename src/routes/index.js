@@ -1,8 +1,18 @@
 const { Router } = require('express');
-const talkerRouter = require('./talker.routes');
+const rotaTalker = require('./rotasTalker');
+const geradorToken = require('../utils/geradorToken');
+const login = require('../middlewares/loginM');
+const geradorMiddlewares = require('../middlewares/indexM');
 
-const indexRouter = Router();
+const geradorRota = Router();
 
-indexRouter.use('/talker', talkerRouter);
+geradorRota.use('/talker', rotaTalker);
 
-module.exports = indexRouter;
+geradorRota.post('/login', login.verificarEmail, login.verificarSenha, (_, res) => {
+  const token = geradorToken();
+  return res.status(200).json({ token });
+});
+
+geradorRota.use(geradorMiddlewares.handleError);
+
+module.exports = geradorRota;

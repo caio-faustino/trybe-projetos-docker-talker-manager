@@ -1,5 +1,5 @@
 const express = require('express');
-const indexRouter = require('./routes');
+const geradorRota = require('./routes');
 
 const app = express();
 app.use(express.json());
@@ -11,7 +11,7 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.use(indexRouter);
+app.use(geradorRota);
 
 app.listen(PORT, () => {
   console.log('Online');
