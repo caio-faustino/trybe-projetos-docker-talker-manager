@@ -9,11 +9,10 @@ const retornaTodos = async () => {
 
   // Exibe o primeiro elemento (índice 0) do array talkers no console
   console.log(talkers[0]);
-
-  // Mapeia os registros retornados pelo banco de dados e cria um novo array
-  // com os campos name, id, age, e um objeto talk contendo watchedAt e rate
-  const formatedTalkers = talkers[0].map(({ id, name, age, talk_watched_at: watchedAt, talk_rate: rate }) => ({
-    name, id, age, talk: { watchedAt, rate }
+  const formatedTalkers = talkers[0].map(({ 
+    id, name, age, talk_watched_at: watchedAt, talk_rate: rate,
+   }) => ({
+    name, id, age, talk: { watchedAt, rate },
   }));
 
   // Exibe o array formatedTalkers no console

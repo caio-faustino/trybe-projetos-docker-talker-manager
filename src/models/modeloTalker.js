@@ -116,11 +116,7 @@ const patch = async (id, rate) => {
   // Chama a função 'retornaPelaId' para obter informações do palestrante pelo 'id' fornecido
   const { result: { message }, status } = await retornaPelaId(id);
   // Verifica se houve uma mensagem de erro ao obter as informações do palestrante
-  if (message) {
-    // Retorna um objeto com o status e a mensagem de erro
-    return { status, message };
-  }
-  // Atualiza o valor da propriedade 'rate' do palestrante com o 'id' fornecido
+  if (message) { return { status, message }; }
   const novoTalker = result.map((talker) => {
     const { talk } = talker;
     return Number(id) === talker.id
@@ -141,5 +137,5 @@ module.exports = {
   atualiza,
   apagarTalker,
   search,
-  patch
+  patch,
 };
