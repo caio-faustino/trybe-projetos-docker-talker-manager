@@ -1,13 +1,16 @@
 const { Router } = require('express');
 
+// Cria uma instância do Router do Express chamada verificarConsultas
 const verificarConsultas = Router();
 
+// Middleware para verificar se o ID é válido
 const verificarId = ({ params: { id } }, _res, next) => {
   const idNumero = Number(id);
   if (Number.isInteger(idNumero) && !Number.isNaN(idNumero)) return next();
   return next({ status: 400, message: 'Id inválido' });
 };
 
+// Middleware para verificar a ocorrência do parâmetro "rate" e validar seu valor
 const verificarOcorrenciaTermoProcurado = (req, _res, next) => {
   const { rate } = req.query;
   const numeroOcorrencias = Number(rate);
@@ -18,12 +21,16 @@ const verificarOcorrenciaTermoProcurado = (req, _res, next) => {
   return next();
 };
 
+// Middleware para verificar a ocorrência do parâmetro "q" (termo de procura por nome)
+// e definir um valor padrão vazio caso não esteja presente
 const verificarProcuraTermoNome = (req, _res, next) => {
   const { q } = req.query;
   req.query = { ...req.query, q: q || '' };
   next();
 };
 
+// Middleware para verificar a ocorrência do parâmetro "date" (termo de procura por data)
+// e validar seu formato
 const verificarProcuraTermoData = (req, _res, next) => {
   const { date } = req.query;
   const index = /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
@@ -34,12 +41,15 @@ const verificarProcuraTermoData = (req, _res, next) => {
   return next();
 };
 
+// Usa os middlewares verificarOcorrenciaTermoProcurado, verificarProcuraTermoNome e verificarProcuraTermoData
+// para todas as rotas definidas em verificarConsultas
 verificarConsultas.use(
-  verificarOcorrenciaTermoProcurado, 
-  verificarProcuraTermoNome, 
+  verificarOcorrenciaTermoProcurado,
+  verificarProcuraTermoNome,
   verificarProcuraTermoData,
-  );
+);
 
+// Exporta os middlewares e a instância do Router para serem utilizados em outros arquivos
 module.exports = {
   verificarId,
   verificarOcorrenciaTermoProcurado,
